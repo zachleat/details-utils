@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<title></title>
+		<style>
+		* {
+			box-sizing: border-box;
+		}
+		details {
+			border: 1px solid #ddd;
+		}
+		summary {
+			padding: .5em;
+		}
+
+		.demo-content {
+			border: 3px solid;
+			padding: 1em;
+			background-color: #ddd;
+			overflow: hidden; /* Important for animations */
+		}
+		details[open] > .demo-modal-summary {
+			position: fixed;
+			top: .5em;
+			right: 1.5em;
+			z-index: 2;
+		}
+		.demo-modal-content {
+			position: fixed;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			overflow: auto;
+		}
+		</style>
+	</head>
+	<body>
+		<h1><code>details-utilities</code></h1>
+		<p>Mix and match these utilities as needed:</p>
+		<ul>
+			<li><a href="#click-out">Click outside to close</a></li>
+			<li><a href="#animate">Animate open and close</a></li>
+			<li><a href="#force">Force State</a></li>
+			<li><a href="#esc">Close by <code>esc</code> key</a></li>
+			<li><a href="#modal">Modal</a></li>
+		</ul>
+
+		<h2 id="click-out">Click outside to close</h2>
+		<details-utils close-click-outside>
+			<details>
+				<summary>Toggle Menu</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
+
+		<h3>Use a close button inside of the content.</h3>
+		<details-utils close-click-outside>
+			<details>
+				<summary>Toggle Menu</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+					<button type="button" data-du-close-click>Close</button>
+				</div>
+			</details>
+		</details-utils>
+
+		<h2 id="animate">Animate Open and Close</h2>
+		<details-utils animate>
+			<p>This attribute is ignored if <code>(prefers-reduced-motion)</code> preference is detected.</p>
+			<details>
+				<summary>Toggle Menu</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
+
+		<h2 id="force-state">Force State</h2>
+		<h3>Force State based on JavaScript availability</h3>
+		<p>Disable/enable JavaScript to test initial state. No JavaScript? Open. JavaScript? Closed.</p>
+		<details-utils force-closed>
+			<details open>
+				<summary>Toggle Menu</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
+
+		<h3>Force State based on Viewport size</h3>
+		<p>Resize your viewport to see state change.</p>
+		<details-utils force-closed="(max-width: 767px)">
+			<p>Closed at &lt; 767px, open at &gt; 768px.</p>
+			<details>
+				<summary>Toggle Menu</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
+
+		<h2 id="esc">Close by <code>esc</code> Key</h2>
+		<details-utils close-esc>
+			<details>
+				<summary>Toggle Menu</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
+
+		<h3>Close by <code>esc</code> based on Viewport size</h3>
+		<details-utils close-esc="(max-width: 767px)">
+			<p>Will only close at &lt; 767px.</p>
+			<details>
+				<summary>Toggle Menu</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
+
+		<h2 id="modal">Modal</h2>
+		<details-utils modal close-click-outside>
+			<p>Practically, modal mode toggles <code>overflow: hidden</code> on the document. Styling to make the content take up the entire viewport is up to you.</p>
+			<details>
+				<summary class="demo-modal-summary">Toggle Menu</summary>
+				<div class="demo-content demo-modal-content">
+					<button type="button" data-du-close-click>Close</button>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
+
+		<script type="module" src="details-utilities.js"></script>
+	</body>
+</html>
