@@ -6,6 +6,12 @@
 		<meta name="description" content="">
 		<title></title>
 		<style>
+		/* Important CSS */
+		details-utils:not([js]) [data-du-close-click] {
+			display: none;
+		}
+
+		/* Demo CSS */
 		* {
 			box-sizing: border-box;
 		}
@@ -22,13 +28,9 @@
 			background-color: #ddd;
 			overflow: hidden; /* Important for animations */
 		}
-		details[open] > .demo-modal-summary {
-			position: fixed;
-			top: .5em;
-			right: 1.5em;
-			z-index: 2;
-		}
-		.demo-modal-content {
+
+		/* Modal style */
+		details-utils[modal][js] .demo-modal-content {
 			position: fixed;
 			left: 0;
 			top: 0;
@@ -136,7 +138,7 @@
 
 		<h2 id="modal">Modal</h2>
 		<details-utils modal close-click-outside>
-			<p>Practically, modal mode toggles <code>overflow: hidden</code> on the document. Styling to make the content take up the entire viewport is up to you.</p>
+			<p>Practically, modal mode toggles <code>overflow: hidden</code> on the document. Styling to make the content take up the entire viewport is up to you. In this demo, modal styles require JavaScript (this is not mandatory).</p>
 			<details>
 				<summary class="demo-modal-summary">Toggle Menu</summary>
 				<div class="demo-content demo-modal-content">
