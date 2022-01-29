@@ -292,6 +292,7 @@ class DetailsUtils extends HTMLElement {
 		this.options.forceStateClosed = this.getAttributeValue(this.attrs.forceStateClosed);
 		this.options.modal = this.getAttributeValue(this.attrs.modal);
 
+		// TODO support nesting <details-utils>
 		let details = Array.from(this.querySelectorAll(`:scope details`));
 		for(let detail of details) {
 			// override initial state based on viewport (if needed)
