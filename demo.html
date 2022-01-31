@@ -30,7 +30,11 @@
 		}
 
 		/* Modal style */
-		details-utils[modal]:defined .demo-modal-content {
+		html.demo-no-overflow {
+			/* You can qualify this in a media query, too */
+			overflow: hidden;
+		}
+		details-utils[toggle-document-class]:defined .demo-modal-content {
 			position: fixed;
 			left: 0;
 			top: 0;
@@ -94,9 +98,20 @@
 
 		<h2 id="force-state">Force State</h2>
 		<h3>Force State based on JavaScript availability</h3>
-		<p>Disable/enable JavaScript to test initial state. No JavaScript? Open. JavaScript? Closed.</p>
+
+		<p>Open without JavaScript, closed with JavaScript:</p>
 		<details-utils force-closed>
 			<details open>
+				<summary>Toggle Menu</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
+
+		<p>Closed without JavaScript, open with JavaScript:</p>
+		<details-utils force-closed="(max-width: 0px)">
+			<details>
 				<summary>Toggle Menu</summary>
 				<div class="demo-content">
 					<p>This is the content.</p>
@@ -128,7 +143,7 @@
 
 		<h3>Close by <code>esc</code> based on Viewport size</h3>
 		<details-utils close-esc="(max-width: 767px)">
-			<p>Will only close at &lt; 767px.</p>
+			<p><code>close-esc="(max-width: 767px)"</code> will only close when viewport is smaller than 767px.</p>
 			<details>
 				<summary>Toggle Menu</summary>
 				<div class="demo-content">
@@ -137,9 +152,9 @@
 			</details>
 		</details-utils>
 
-		<h2 id="modal">Modal</h2>
-		<details-utils modal close-click-outside close-esc>
-			<p>Practically speaking, modal mode toggles <code>overflow: hidden</code> on the document. Styling to make the content take up the entire viewport is up to you. Definitely pair this with the <code>close-esc</code> utility. In this demo, modal styles require JavaScript (this is not mandatory).</p>
+		<h2 id="modal">Toggle Document Class</h2>
+		<details-utils toggle-document-class="demo-no-overflow" close-click-outside close-esc>
+			<p>Use this to disable <code>overflow: hidden</code> on the document. Styling to make the content take up the entire viewport is up to you. Definitely pair this with the <code>close-esc</code> utility. In this demo, modal styles require JavaScript (this is not mandatory).</p>
 			<details>
 				<summary class="demo-modal-summary">Toggle Menu</summary>
 				<div class="demo-content demo-modal-content">
@@ -163,6 +178,6 @@
 			</details>
 		</details-utils>
 
-		<script type="module" src="details-utilities.js"></script>
+		<script type="module" src="details-utils.js"></script>
 	</body>
 </html>

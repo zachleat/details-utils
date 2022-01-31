@@ -4,7 +4,6 @@ class DetailsUtilsForceState {
 			closeClickOutside: false,		// can also be a media query str
 			forceStateClosed: false,		// can also be a media query str
 			closeEsc: false,						// can also be a media query str
-			modal: false,								// can also be a media query str
 		}, options);
 
 		this.attr = {
@@ -41,28 +40,6 @@ class DetailsUtilsForceState {
 				});
 			}
 		}
-
-		// modal
-		let modalMm = this.getModalMediaQuery();
-		if(modalMm && ("addListener" in modalMm)) {
-			modalMm.addListener(e => {
-				if(this.detail.open) {
-					this.setModal(e.matches);
-				}
-			});
-		}
-
-		this.summary.addEventListener("click", e => {
-			if(this.isModal()) {
-				// TODO does this value work without animate too?
-				this.setModal(!this.detail.open);
-			}
-		});
-	}
-
-	isModal() {
-		let mm = this.getModalMediaQuery();
-		return mm && mm.matches;
 	}
 
 	isCloseOnEsc() {
@@ -89,18 +66,6 @@ class DetailsUtilsForceState {
 	triggerClickToClose() {
 		if(this.summary && this.options.closeClickOutside) {
 			this.toggle();
-		}
-	}
-
-	getModalMediaQuery() {
-		return this.getMatchMedia(this.detail, this.options.modal);
-	}
-
-	setModal(isOpen) {
-		if(isOpen) {
-			document.documentElement.style.overflow = "hidden";
-		} else {
-			document.documentElement.style.overflow = "";
 		}
 	}
 
@@ -248,7 +213,7 @@ class DetailsUtils extends HTMLElement {
 			closeEsc: "close-esc",
 			closeClickOutside: "close-click-outside",
 			forceStateClosed: "force-closed",
-			modal: "modal",
+			toggleDocumentClass: "toggle-document-class",
 		};
 
 		this.options = {};
@@ -290,7 +255,6 @@ class DetailsUtils extends HTMLElement {
 		this.options.closeClickOutside = this.getAttributeValue(this.attrs.closeClickOutside);
 		this.options.closeEsc = this.getAttributeValue(this.attrs.closeEsc);
 		this.options.forceStateClosed = this.getAttributeValue(this.attrs.forceStateClosed);
-		this.options.modal = this.getAttributeValue(this.attrs.modal);
 
 		// TODO support nesting <details-utils>
 		let details = Array.from(this.querySelectorAll(`:scope details`));
@@ -307,6 +271,11 @@ class DetailsUtils extends HTMLElement {
 
 		this.bindCloseOnEsc(details);
 		this.bindClickoutToClose(details);
+
+		this.toggleDocumentClassName = this.getAttribute(this.attrs.toggleDocumentClass);
+		if(this.toggleDocumentClassName) {
+			this.bindToggleDocumentClass(details);
+		}
 	}
 
 	bindCloseOnEsc(details) {
@@ -366,6 +335,14 @@ class DetailsUtils extends HTMLElement {
 				}
 			}
 		}, false);
+	}
+
+	bindToggleDocumentClass(details) {
+		for(let detail of details) {
+			detail.addEventListener("toggle", (event) => {
+				document.documentElement.classList.toggle( this.toggleDocumentClassName, event.target.open );
+			});
+		}
 	}
 }
 
