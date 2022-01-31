@@ -1,8 +1,8 @@
 {
-  "name": "@zachleat/details-utilities",
+  "name": "@zachleat/details-utils",
   "version": "1.0.0",
   "description": "Filtering visible child elements based on form field values.",
-  "main": "details-utilities.js",
+  "main": "details-utils.js",
   "publishConfig": {
     "access": "public"
   },
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zachleat/details-utilities.git"
+    "url": "git+https://github.com/zachleat/details-utils.git"
   },
   "author": {
     "name": "Zach Leatherman",
@@ -20,7 +20,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zachleat/details-utilities/issues"
+    "url": "https://github.com/zachleat/details-utils/issues"
   },
-  "homepage": "https://github.com/zachleat/details-utilities#readme"
+  "homepage": "https://github.com/zachleat/details-utils#readme"
 }
