@@ -249,7 +249,6 @@ class DetailsUtils extends HTMLElement {
 			closeClickOutside: "close-click-outside",
 			forceStateClosed: "force-closed",
 			modal: "modal",
-			js: "js",
 		};
 
 		this.options = {};
@@ -287,8 +286,6 @@ class DetailsUtils extends HTMLElement {
 			return;
 		}
 		this.initialized = true;
-
-		this.setAttribute(this.attrs.js, "");
 
 		this.options.closeClickOutside = this.getAttributeValue(this.attrs.closeClickOutside);
 		this.options.closeEsc = this.getAttributeValue(this.attrs.closeEsc);

@@ -7,7 +7,7 @@
 		<title></title>
 		<style>
 		/* Important CSS */
-		details-utils:not([js]) [data-du-close-click] {
+		details-utils:not(:defined) [data-du-close-click] {
 			display: none;
 		}
 
@@ -30,7 +30,7 @@
 		}
 
 		/* Modal style */
-		details-utils[modal][js] .demo-modal-content {
+		details-utils[modal]:defined .demo-modal-content {
 			position: fixed;
 			left: 0;
 			top: 0;
@@ -67,7 +67,7 @@
 			<details>
 				<summary>Toggle Menu</summary>
 				<div class="demo-content">
-					<p>This is the content.</p>
+					<p>Note that interacting with content inside of the menu works without closing the menu.</p>
 					<button type="button" data-du-close-click>Close</button>
 				</div>
 			</details>
