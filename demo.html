@@ -37,12 +37,13 @@
 			right: 0;
 			bottom: 0;
 			overflow: auto;
+			background-color: rgba(255,255,255,.95);
 		}
 		</style>
 	</head>
 	<body>
-		<h1><code>details-utilities</code></h1>
-		<p>Mix and match these utilities as needed:</p>
+		<h1><code>&lt;details-utils&gt;</code></h1>
+		<p>To use, wrap one (or more!) <code>&lt;details&gt;</code> elements in our  <code>&lt;details-utils&gt;</code> web component. Mix and match these utilities as needed:</p>
 		<ul>
 			<li><a href="#click-out">Click outside to close</a></li>
 			<li><a href="#animate">Animate open and close</a></li>
@@ -56,7 +57,7 @@
 			<details>
 				<summary>Toggle Menu</summary>
 				<div class="demo-content">
-					<p>This is the content.</p>
+					<p>Note that interacting with content inside of the menu works without closing the menu. Like this <label>sample text input <input type="text"></label></p>
 				</div>
 			</details>
 		</details-utils>
@@ -137,12 +138,13 @@
 		</details-utils>
 
 		<h2 id="modal">Modal</h2>
-		<details-utils modal close-click-outside>
-			<p>Practically, modal mode toggles <code>overflow: hidden</code> on the document. Styling to make the content take up the entire viewport is up to you. In this demo, modal styles require JavaScript (this is not mandatory).</p>
+		<details-utils modal close-click-outside close-esc>
+			<p>Practically speaking, modal mode toggles <code>overflow: hidden</code> on the document. Styling to make the content take up the entire viewport is up to you. Definitely pair this with the <code>close-esc</code> utility. In this demo, modal styles require JavaScript (this is not mandatory).</p>
 			<details>
 				<summary class="demo-modal-summary">Toggle Menu</summary>
 				<div class="demo-content demo-modal-content">
 					<button type="button" data-du-close-click>Close</button>
+					<p>If your viewport is smaller than this modal, it will overflow internally!</p>
 					<p>This is the content.</p>
 					<p>This is the content.</p>
 					<p>This is the content.</p>

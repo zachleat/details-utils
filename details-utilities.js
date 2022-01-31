@@ -62,7 +62,6 @@ class DetailsUtilsForceState {
 
 	isModal() {
 		let mm = this.getModalMediaQuery();
-		console.log( mm );
 		return mm && mm.matches;
 	}
 
@@ -78,14 +77,18 @@ class DetailsUtilsForceState {
 		return this.getMatchMedia(this.detail, this.options.closeClickOutside);
 	}
 
+	toggle() {
+		let clickEvent = new MouseEvent("click", {
+			view: window,
+			bubbles: true,
+			cancelable: true
+		});
+		this.summary.dispatchEvent(clickEvent);
+	}
+
 	triggerClickToClose() {
 		if(this.summary && this.options.closeClickOutside) {
-			let clickEvent = new MouseEvent("click", {
-				view: window,
-				bubbles: true,
-				cancelable: true
-			});
-			this.summary.dispatchEvent(clickEvent);
+			this.toggle();
 		}
 	}
 
@@ -311,14 +314,14 @@ class DetailsUtils extends HTMLElement {
 
 	bindCloseOnEsc(details) {
 		document.documentElement.addEventListener("keydown", event => {
-			for(let detail of details) {
-				let fs = new DetailsUtilsForceState(detail, this.options);
-				if (fs.isCloseOnEsc() && event.keyCode === 27 && detail.open) {
-					let mm = fs.getCloseOnEscMatchMedia();
-					if(!mm) {
-						fs.setState(false);
-					} else if(mm) {
-						fs.setState(!mm.matches);
+			if(event.keyCode === 27) {
+				for(let detail of details) {
+					let fs = new DetailsUtilsForceState(detail, this.options);
+					if (fs.isCloseOnEsc() && detail.open) {
+						let mm = fs.getCloseOnEscMatchMedia();
+						if(!mm || mm && mm.matches) {
+							fs.toggle();
+						}
 					}
 				}
 			}
@@ -335,20 +338,34 @@ class DetailsUtils extends HTMLElement {
 		return false;
 	}
 
+	onClickoutToClose(detail, event) {
+		let fs = new DetailsUtilsForceState(detail, this.options);
+		let mm = fs.getClickoutToCloseMatchMedia();
+		if(mm && !mm.matches) {
+			// don’t close if has a media query but it doesn’t match current viewport size
+			// useful for viewport navigation that must stay open (e.g. list of horizontal links)
+			return;
+		}
+
+		let isCloseButton = event.target.hasAttribute(fs.attr.closeClickOutsideButton);
+		if((isCloseButton || !this.isChildOfParent(event.target, detail)) && detail.open) {
+			fs.triggerClickToClose(detail);
+		}
+	}
+
 	bindClickoutToClose(details) {
+		// Note: Scoped to document
 		document.documentElement.addEventListener("mousedown", event => {
 			for(let detail of details) {
-				let fs = new DetailsUtilsForceState(detail, this.options);
-				let mm = fs.getClickoutToCloseMatchMedia();
-				if(mm && !mm.matches) {
-					// don’t close if has a media query but it doesn’t match current viewport size
-					// useful for viewport navigation that must stay open (e.g. list of horizontal links)
-					continue;
-				}
+				this.onClickoutToClose(detail, event);
+			}
+		}, false);
 
-				let isCloseButton = event.target.hasAttribute(fs.attr.closeClickOutsideButton);
-				if((isCloseButton || !this.isChildOfParent(event.target, detail)) && detail.open) {
-					fs.triggerClickToClose(detail);
+		// Note: Scoped to this element only
+		this.addEventListener("keypress", event => {
+			if(event.which === 13 || event.which === 32) { // enter, space
+				for(let detail of details) {
+					this.onClickoutToClose(detail, event);
 				}
 			}
 		}, false);
