@@ -4,6 +4,8 @@
 
 ## Installation
 
+* [Available on npm](https://www.npmjs.com/package/@zachleat/details-utils)
+
 ```
 npm install @zachleat/details-utils
 ```
