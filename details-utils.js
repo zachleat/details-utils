@@ -44,8 +44,8 @@ class DetailsUtilsForceState {
 			}
 		}
 
-		this.addListener(openMatchMedia, "open");
-		this.addListener(closeMatchMedia, "close");
+		this.addListener(openMatchMedia, "for-open");
+		this.addListener(closeMatchMedia, "for-close");
 	}
 
 	addListener(matchmedia, type) {
@@ -56,9 +56,9 @@ class DetailsUtilsForceState {
 		// Force stated based on force-open/force-close attribute value in a media query listener
 		matchmedia.addListener(e => {
 			if(e.matches) {
-				if(this.detail.open !== (type === "open")) {
-					this._previousStates[type] = this.detail.open;
-					this.setState(type === "open");
+				this._previousStates[type] = this.detail.open;
+				if(this.detail.open !== (type === "for-open")) {
+					this.setState(type === "for-open");
 				}
 			} else {
 				if(this.options.forceStateRestore && this._previousStates[type] !== undefined) {

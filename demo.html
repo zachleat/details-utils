@@ -147,7 +147,7 @@
 		<p>Resize your viewport to see state change.</p>
 		<details-utils force-close="(min-width: 768px)" force-restore>
 			<p><code>force-close="(min-width: 768px)"</code>. Optionally use <code>force-restore</code> to restore previous state when media query doesn’t match.</p>
-			<details open>
+			<details open style="color: red">
 				<summary>Force close at large viewport</summary>
 				<div class="demo-content">
 					<p>This is the content.</p>
@@ -156,7 +156,7 @@
 		</details-utils>
 		<details-utils force-open="(max-width: 767px)" force-restore>
 			<p><code>force-open="(max-width: 767px)"</code>. Optionally use <code>force-restore</code> to restore previous state when media query doesn’t match.</p>
-			<details>
+			<details style="color: green">
 				<summary>Force open at small viewport</summary>
 				<div class="demo-content">
 					<p>This is the content.</p>
@@ -165,7 +165,7 @@
 		</details-utils>
 		<details-utils force-close="(max-width: 767px)" force-open="(min-width: 768px)">
 			<p>Both <code>force-close="(max-width: 767px)"</code> and <code>force-open="(min-width: 768px)"</code> (without <code>force-restore</code>)</p>
-			<details>
+			<details style="color: blue">
 				<summary>Close at small, Open at large viewport</summary>
 				<div class="demo-content">
 					<p>This is the content.</p>
