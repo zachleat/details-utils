@@ -100,13 +100,13 @@
 			</details>
 		</details-utils>
 
-		<h2 id="force-state">Force State</h2>
+		<h2 id="force">Force State</h2>
 		<h3>Force State based on JavaScript availability</h3>
 
-		<p>Open without JavaScript, close with JavaScript:</p>
+		<p>Open without JavaScript, closed with JavaScript:</p>
 		<details-utils force-close>
 			<details open>
-				<summary>Toggle Menu</summary>
+				<summary>Default open</summary>
 				<div class="demo-content">
 					<p>This is the content.</p>
 				</div>
@@ -116,21 +116,57 @@
 		<p>Close without JavaScript, open with JavaScript:</p>
 		<details-utils force-open>
 			<details>
-				<summary>Toggle Menu</summary>
+				<summary>Default closed</summary>
 				<div class="demo-content">
 					<p>This is the content.</p>
 				</div>
 			</details>
 		</details-utils>
 
-		<p>If both <code>force-open force-close</code> are added, it toggles state.</p>
+		<p><em>If both <code>force-open force-close</code> are added, the state is toggled.</em></p>
+
+		<details-utils force-open force-close>
+			<details>
+				<summary>Default closed</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
+
+		<details-utils force-open force-close>
+			<details open>
+				<summary>Default open</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
 
 		<h3>Force State based on Viewport size</h3>
 		<p>Resize your viewport to see state change.</p>
-		<details-utils force-close="(max-width: 767px)" force-open="(min-width: 768px)">
-			<p><code>force-close="(max-width: 767px)"</code> and <code>force-open="(min-width: 768px)"</code></p>
+		<details-utils force-close="(min-width: 768px)" force-restore>
+			<p><code>force-close="(min-width: 768px)"</code>. Optionally use <code>force-restore</code> to restore previous state when media query doesn’t match.</p>
+			<details open>
+				<summary>Force close at large viewport</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
+		<details-utils force-open="(max-width: 767px)" force-restore>
+			<p><code>force-open="(max-width: 767px)"</code>. Optionally use <code>force-restore</code> to restore previous state when media query doesn’t match.</p>
 			<details>
-				<summary>Toggle Menu</summary>
+				<summary>Force open at small viewport</summary>
+				<div class="demo-content">
+					<p>This is the content.</p>
+				</div>
+			</details>
+		</details-utils>
+		<details-utils force-close="(max-width: 767px)" force-open="(min-width: 768px)">
+			<p>Both <code>force-close="(max-width: 767px)"</code> and <code>force-open="(min-width: 768px)"</code> (without <code>force-restore</code>)</p>
+			<details>
+				<summary>Close at small, Open at large viewport</summary>
 				<div class="demo-content">
 					<p>This is the content.</p>
 				</div>

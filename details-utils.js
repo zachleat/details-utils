@@ -5,14 +5,12 @@ class DetailsUtilsForceState {
 			forceStateClose: false,			// can also be a media query str
 			forceStateOpen: false,			// can also be a media query str
 			closeEsc: false,						// can also be a media query str
+			forceStateRestore: true,
 		}, options);
-
-		this.attr = {
-			closeClickOutsideButton: "data-du-close-click",
-		};
 
 		this.detail = detail;
 		this.summary = detail.querySelector(":scope > summary");
+		this._previousStates = {};
 	}
 
 	getMatchMedia(el, mq) {
@@ -28,7 +26,7 @@ class DetailsUtilsForceState {
 		}
 	}
 
-	// warning: nothing special happens here if the media queries are configured wrong
+	// warning: no error checking if the open/close media queries are configured wrong and overlap in weird ways
 	init() {
 		let openMatchMedia = this.getMatchMedia(this.detail, this.options.forceStateOpen);
 		let closeMatchMedia = this.getMatchMedia(this.detail, this.options.forceStateClose);
@@ -40,30 +38,38 @@ class DetailsUtilsForceState {
 			if( openMatchMedia && openMatchMedia.matches ) {
 				this.setState(true);
 			}
-	
+
 			if( closeMatchMedia && closeMatchMedia.matches ) {
 				this.setState(false);
 			}
 		}
 
-		if(openMatchMedia && ("addListener" in openMatchMedia)) {
-			// Force stated based on force-close attribute value in a media query listener
-			openMatchMedia.addListener(e => {
-				if(e.matches) {
-					this.setState(true);
-				}
-			});
+		this.addListener(openMatchMedia, "open");
+		this.addListener(closeMatchMedia, "close");
+	}
+
+	addListener(matchmedia, type) {
+		if(!matchmedia || !("addListener" in matchmedia)) {
+			return;
 		}
 
-		if(closeMatchMedia && ("addListener" in closeMatchMedia)) {
-			// Force stated based on force-open attribute value in a media query listener
-			closeMatchMedia.addListener(e => {
-				if(e.matches) {
-					this.setState(false);
+		// Force stated based on force-open/force-close attribute value in a media query listener
+		matchmedia.addListener(e => {
+			if(e.matches) {
+				if(this.detail.open !== (type === "open")) {
+					this._previousStates[type] = this.detail.open;
+					this.setState(type === "open");
 				}
-			});
-		}
+			} else {
+				if(this.options.forceStateRestore && this._previousStates[type] !== undefined) {
+					if(this.detail.open !== this._previousStates[type]) {
+						this.setState(this._previousStates[type]);
+					}
+				}
+			}
+		});
 	}
+
 
 	toggle() {
 		let clickEvent = new MouseEvent("click", {
@@ -225,7 +231,9 @@ class DetailsUtils extends HTMLElement {
 			closeClickOutside: "close-click-outside",
 			forceStateClose: "force-close",
 			forceStateOpen: "force-open",
+			forceStateRestore: "force-restore",
 			toggleDocumentClass: "toggle-document-class",
+			closeClickOutsideButton: "data-du-close-click",
 		};
 
 		this.options = {};
@@ -268,6 +276,7 @@ class DetailsUtils extends HTMLElement {
 		this.options.closeEsc = this.getAttributeValue(this.attrs.closeEsc);
 		this.options.forceStateClose = this.getAttributeValue(this.attrs.forceStateClose);
 		this.options.forceStateOpen = this.getAttributeValue(this.attrs.forceStateOpen);
+		this.options.forceStateRestore = this.getAttributeValue(this.attrs.forceStateRestore);
 
 		// TODO support nesting <details-utils>
 		let details = Array.from(this.querySelectorAll(`:scope details`));
@@ -330,7 +339,7 @@ class DetailsUtils extends HTMLElement {
 			return;
 		}
 
-		let isCloseButton = event.target.hasAttribute(fs.attr.closeClickOutsideButton);
+		let isCloseButton = event.target.hasAttribute(this.attrs.closeClickOutsideButton);
 		if((isCloseButton || !this.isChildOfParent(event.target, detail)) && detail.open) {
 			fs.triggerClickToClose(detail);
 		}
