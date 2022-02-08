@@ -87,16 +87,6 @@ class DetailsUtilsForceState {
 	}
 
 	setState(setOpen) {
-		// We don’t want the summary to be focusable at larger breakpoints
-		// Trying to prevent toggle as it should be always visible. Works in tandem with pointer-events: none
-		if(this.summary) {
-			if(setOpen) {
-				this.summary.setAttribute("tabindex", -1);
-			} else {
-				this.summary.removeAttribute("tabindex");
-			}
-		}
-
 		if( setOpen ) {
 			this.detail.setAttribute("open", "open");
 		} else {
