@@ -2,7 +2,8 @@ class DetailsUtilsForceState {
 	constructor(detail, options = {}) {
 		this.options = Object.assign({
 			closeClickOutside: false,		// can also be a media query str
-			forceStateClosed: false,		// can also be a media query str
+			forceStateClose: false,			// can also be a media query str
+			forceStateOpen: false,			// can also be a media query str
 			closeEsc: false,						// can also be a media query str
 		}, options);
 
@@ -27,31 +28,41 @@ class DetailsUtilsForceState {
 		}
 	}
 
+	// warning: nothing special happens here if the media queries are configured wrong
 	init() {
-		let mm = this.getMatchMedia(this.detail, this.options.forceStateClosed);
-
-		if( mm ) {
-			this.setState(!mm.matches);
-
-			if("addListener" in mm) {
-				// Force stated based on details-force-state-closed attribute value in a media query listener
-				mm.addListener(e => {
-					this.setState(!e.matches);
-				});
+		let openMatchMedia = this.getMatchMedia(this.detail, this.options.forceStateOpen);
+		let closeMatchMedia = this.getMatchMedia(this.detail, this.options.forceStateClose);
+		
+		// When both force-close and force-open are valid, it toggles state
+		if( openMatchMedia && openMatchMedia.matches && closeMatchMedia && closeMatchMedia.matches ) {
+			this.setState(!this.detail.open);
+		} else {
+			if( openMatchMedia && openMatchMedia.matches ) {
+				this.setState(true);
+			}
+	
+			if( closeMatchMedia && closeMatchMedia.matches ) {
+				this.setState(false);
 			}
 		}
-	}
 
-	isCloseOnEsc() {
-		return !!this.options.closeEsc;
-	}
+		if(openMatchMedia && ("addListener" in openMatchMedia)) {
+			// Force stated based on force-close attribute value in a media query listener
+			openMatchMedia.addListener(e => {
+				if(e.matches) {
+					this.setState(true);
+				}
+			});
+		}
 
-	getCloseOnEscMatchMedia() {
-		return this.getMatchMedia(this.detail, this.options.closeEsc);
-	}
-
-	getClickoutToCloseMatchMedia() {
-		return this.getMatchMedia(this.detail, this.options.closeClickOutside);
+		if(closeMatchMedia && ("addListener" in closeMatchMedia)) {
+			// Force stated based on force-open attribute value in a media query listener
+			closeMatchMedia.addListener(e => {
+				if(e.matches) {
+					this.setState(false);
+				}
+			});
+		}
 	}
 
 	toggle() {
@@ -212,7 +223,8 @@ class DetailsUtils extends HTMLElement {
 			animate: "animate",
 			closeEsc: "close-esc",
 			closeClickOutside: "close-click-outside",
-			forceStateClosed: "force-closed",
+			forceStateClose: "force-close",
+			forceStateOpen: "force-open",
 			toggleDocumentClass: "toggle-document-class",
 		};
 
@@ -254,7 +266,8 @@ class DetailsUtils extends HTMLElement {
 
 		this.options.closeClickOutside = this.getAttributeValue(this.attrs.closeClickOutside);
 		this.options.closeEsc = this.getAttributeValue(this.attrs.closeEsc);
-		this.options.forceStateClosed = this.getAttributeValue(this.attrs.forceStateClosed);
+		this.options.forceStateClose = this.getAttributeValue(this.attrs.forceStateClose);
+		this.options.forceStateOpen = this.getAttributeValue(this.attrs.forceStateOpen);
 
 		// TODO support nesting <details-utils>
 		let details = Array.from(this.querySelectorAll(`:scope details`));
@@ -279,12 +292,16 @@ class DetailsUtils extends HTMLElement {
 	}
 
 	bindCloseOnEsc(details) {
+		if(!this.options.closeEsc) {
+			return;
+		}
+
 		document.documentElement.addEventListener("keydown", event => {
 			if(event.keyCode === 27) {
 				for(let detail of details) {
-					let fs = new DetailsUtilsForceState(detail, this.options);
-					if (fs.isCloseOnEsc() && detail.open) {
-						let mm = fs.getCloseOnEscMatchMedia();
+					if (detail.open) {
+						let fs = new DetailsUtilsForceState(detail, this.options);
+						let mm = fs.getMatchMedia(detail, this.options.closeEsc);
 						if(!mm || mm && mm.matches) {
 							fs.toggle();
 						}
@@ -306,7 +323,7 @@ class DetailsUtils extends HTMLElement {
 
 	onClickoutToClose(detail, event) {
 		let fs = new DetailsUtilsForceState(detail, this.options);
-		let mm = fs.getClickoutToCloseMatchMedia();
+		let mm = fs.getMatchMedia(detail, this.options.closeClickOutside);
 		if(mm && !mm.matches) {
 			// don’t close if has a media query but it doesn’t match current viewport size
 			// useful for viewport navigation that must stay open (e.g. list of horizontal links)

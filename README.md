@@ -24,3 +24,10 @@ Wrap `<details-utils>` around one or more `<details>` elements to add enhancemen
 * Close via `esc` Key
   - With optional Media query.
 * Toggle Document Class (toggles a class on `<html>` when active, useful for modals to disable document overflow)
+
+## Changelog
+
+### v2.0.0
+
+* Renamed attribute `force-closed` to `force-close`
+* Added `force-open` to complement `force-close`

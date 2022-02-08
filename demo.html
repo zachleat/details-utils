@@ -103,8 +103,8 @@
 		<h2 id="force-state">Force State</h2>
 		<h3>Force State based on JavaScript availability</h3>
 
-		<p>Open without JavaScript, closed with JavaScript:</p>
-		<details-utils force-closed>
+		<p>Open without JavaScript, close with JavaScript:</p>
+		<details-utils force-close>
 			<details open>
 				<summary>Toggle Menu</summary>
 				<div class="demo-content">
@@ -113,8 +113,8 @@
 			</details>
 		</details-utils>
 
-		<p>Closed without JavaScript, open with JavaScript:</p>
-		<details-utils force-closed="(max-width: 0px)">
+		<p>Close without JavaScript, open with JavaScript:</p>
+		<details-utils force-open>
 			<details>
 				<summary>Toggle Menu</summary>
 				<div class="demo-content">
@@ -123,10 +123,12 @@
 			</details>
 		</details-utils>
 
+		<p>If both <code>force-open force-close</code> are added, it toggles state.</p>
+
 		<h3>Force State based on Viewport size</h3>
 		<p>Resize your viewport to see state change.</p>
-		<details-utils force-closed="(max-width: 767px)">
-			<p>Closed at &lt; 767px, open at &gt; 768px.</p>
+		<details-utils force-close="(max-width: 767px)" force-open="(min-width: 768px)">
+			<p><code>force-close="(max-width: 767px)"</code> and <code>force-open="(min-width: 768px)"</code></p>
 			<details>
 				<summary>Toggle Menu</summary>
 				<div class="demo-content">
