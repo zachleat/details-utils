@@ -1,7 +1,7 @@
 {
   "name": "@zachleat/details-utils",
   "version": "2.0.0",
-  "description": "Filtering visible child elements based on form field values.",
+  "description": "A collection of utilities to progressively enhance <details> with new features",
   "main": "details-utils.js",
   "publishConfig": {
     "access": "public"
