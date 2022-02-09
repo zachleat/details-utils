@@ -3,6 +3,10 @@
 * [All Demos](https://zachleat.github.io/details-utils/demo.html)
 * [Blog post on zachleat.com: Add Responsive-Friendly Enhancements to `<details>` with `<details-utils>`](https://www.zachleat.com/web/details-utils/)
 
+Related work elsewhere:
+
+* [`spicy-sections`](https://github.com/tabvengers/spicy-sections)
+
 ## Installation
 
 * [Available on npm](https://www.npmjs.com/package/@zachleat/details-utils)
