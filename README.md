@@ -1,6 +1,7 @@
 # `<details-utils>`
 
-* [Demo](https://zachleat.github.io/details-utils/demo.html)
+* [All Demos](https://zachleat.github.io/details-utils/demo.html)
+* [Blog post on zachleat.com: Add Responsive-Friendly Enhancements to `<details>` with `<details-utils>`](https://www.zachleat.com/web/details-utils/)
 
 ## Installation
 
