@@ -30,7 +30,7 @@ class DetailsUtilsForceState {
 	init() {
 		let openMatchMedia = this.getMatchMedia(this.detail, this.options.forceStateOpen);
 		let closeMatchMedia = this.getMatchMedia(this.detail, this.options.forceStateClose);
-		
+
 		// When both force-close and force-open are valid, it toggles state
 		if( openMatchMedia && openMatchMedia.matches && closeMatchMedia && closeMatchMedia.matches ) {
 			this.setState(!this.detail.open);
@@ -54,7 +54,7 @@ class DetailsUtilsForceState {
 		}
 
 		// Force stated based on force-open/force-close attribute value in a media query listener
-		matchmedia.addListener(e => {
+		matchmedia.addEventListener("change", e => {
 			if(e.matches) {
 				this._previousStates[type] = this.detail.open;
 				if(this.detail.open !== (type === "for-open")) {
