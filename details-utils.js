@@ -345,7 +345,7 @@ class DetailsUtils extends HTMLElement {
 
 		// Note: Scoped to this element only
 		this.addEventListener("keypress", event => {
-			if(event.which === 13 || event.which === 32) { // enter, space
+			if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
 				for(let detail of details) {
 					this.onClickoutToClose(detail, event);
 				}
