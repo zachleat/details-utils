@@ -296,7 +296,7 @@ class DetailsUtils extends HTMLElement {
 		}
 
 		document.documentElement.addEventListener("keydown", event => {
-			if(event.keyCode === 27) {
+			if (event.key === "Escape") {
 				for(let detail of details) {
 					if (detail.open) {
 						let fs = new DetailsUtilsForceState(detail, this.options);
