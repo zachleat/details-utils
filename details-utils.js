@@ -239,7 +239,7 @@ class DetailsUtils extends HTMLElement {
 	}
 
 	_connect() {
-		if (this.children.length) {
+		if (this.childElementCount) {
 			this._init();
 			return;
 		}
