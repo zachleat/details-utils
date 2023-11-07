@@ -120,20 +120,13 @@ class DetailsUtilsAnimateDetails {
 		this.summary.addEventListener("click", this.onclick.bind(this));
 	}
 
-	parseAnimationFrames(property, ...frames) {
-		let keyframes = [];
-		for(let frame of frames) {
-			let obj = {};
-			obj[property] = frame;
-			keyframes.push(obj);
-		}
-		return keyframes;
-	}
-
 	getKeyframes(open) {
-		let frames = this.parseAnimationFrames("maxHeight", "0px", `${this.getContentHeight()}px`);
+		const frames = [
+            {'maxHeight': '0px'},
+            {'maxHeight': `${this.getContentHeight()}px`}
+        ];
 		if(!open) {
-			return frames.filter(() => true).reverse();
+			frames.reverse();
 		}
 		return frames;
 	}
