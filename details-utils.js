@@ -281,6 +281,10 @@ class DetailsUtils extends HTMLElement {
 		if(this.toggleDocumentClassName) {
 			this.bindToggleDocumentClass(details);
 		}
+		if(this._observer !== undefined) {
+			this._observer.disconnect();
+			delete this._observer;
+		}
 	}
 
 	bindCloseOnEsc(details) {
