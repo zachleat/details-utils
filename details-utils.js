@@ -311,11 +311,8 @@ class DetailsUtils extends HTMLElement {
 	}
 
 	isChildOfParent(target, parent) {
-		while(target && target.parentNode) {
-			if(target.parentNode === parent) {
-				return true;
-			}
-			target = target.parentNode;
+		if (parent.contains(target) && parent !== target) {
+			return true;
 		}
 		return false;
 	}
