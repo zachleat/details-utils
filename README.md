@@ -34,6 +34,11 @@ Wrap `<details-utils>` around one or more `<details>` elements to add enhancemen
 
 ## Changelog
 
+### v3.0.0
+
+* [GitHub Milestone](https://github.com/zachleat/details-utils/milestone/1?closed=1)
+* Browser support updated (Baseline 2020): using [matchMedia.addEventListener](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryListEvent) — thanks @Zearin and @dleatherman!
+
 ### v2.0.0
 
 * Renamed attribute `force-closed` to `force-close`
