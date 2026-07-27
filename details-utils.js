@@ -120,20 +120,13 @@ class DetailsUtilsAnimateDetails {
 		this.summary.addEventListener("click", this.onclick.bind(this));
 	}
 
-	parseAnimationFrames(property, ...frames) {
-		let keyframes = [];
-		for(let frame of frames) {
-			let obj = {};
-			obj[property] = frame;
-			keyframes.push(obj);
-		}
-		return keyframes;
-	}
-
 	getKeyframes(open) {
-		let frames = this.parseAnimationFrames("maxHeight", "0px", `${this.getContentHeight()}px`);
+		const frames = [
+            {'maxHeight': '0px'},
+            {'maxHeight': `${this.getContentHeight()}px`}
+        ];
 		if(!open) {
-			return frames.filter(() => true).reverse();
+			frames.reverse();
 		}
 		return frames;
 	}
@@ -246,7 +239,7 @@ class DetailsUtils extends HTMLElement {
 	}
 
 	_connect() {
-		if (this.children.length) {
+		if (this.childElementCount) {
 			this._init();
 			return;
 		}
@@ -288,6 +281,10 @@ class DetailsUtils extends HTMLElement {
 		if(this.toggleDocumentClassName) {
 			this.bindToggleDocumentClass(details);
 		}
+		if(this._observer !== undefined) {
+			this._observer.disconnect();
+			delete this._observer;
+		}
 	}
 
 	bindCloseOnEsc(details) {
@@ -311,11 +308,8 @@ class DetailsUtils extends HTMLElement {
 	}
 
 	isChildOfParent(target, parent) {
-		while(target && target.parentNode) {
-			if(target.parentNode === parent) {
-				return true;
-			}
-			target = target.parentNode;
+		if (parent.contains(target) && parent !== target) {
+			return true;
 		}
 		return false;
 	}
