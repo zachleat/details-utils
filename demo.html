@@ -15,6 +15,14 @@
 		* {
 			box-sizing: border-box;
 		}
+		html, body {
+			margin: 0;
+			font-family: system-ui, sans-serif;
+		}
+		main {
+			max-width: 64em;
+			margin-inline: auto;
+		}
 		body {
 			padding-bottom: 80vh;
 		}
@@ -47,168 +55,179 @@
 			background-color: rgba(255,255,255,.95);
 		}
 		</style>
+		<script type="module" src="details-utils.js"></script>
 	</head>
 	<body>
-		<h1><code>&lt;details-utils&gt;</code></h1>
-		<p>Go back to <a href="https://github.com/zachleat/details-utils">the GitHub repository</a>.</p>
-		<p>To use, wrap one (or more!) <code>&lt;details&gt;</code> elements in our  <code>&lt;details-utils&gt;</code> web component. Mix and match these utilities as needed:</p>
-		<ul>
-			<li><a href="#click-out">Click outside to close</a></li>
-			<li><a href="#animate">Animate open and close</a></li>
-			<li><a href="#force">Force State</a></li>
-			<li><a href="#esc">Close by <code>esc</code> key</a></li>
-			<li><a href="#toggle-document-class">Toggle document class</a></li>
-		</ul>
+<!-- zachleat nav (2026-09-05) -->
+<style>
+.demo-nav{all:initial;--demo-nav-bg:light-dark(#f4f6f4b3,#1e201eb3);--demo-nav-bg-solid:light-dark(#fff,#1b1b1b);--demo-nav-text:light-dark(#222,#f2f2f2);--demo-nav-muted:light-dark(#525252,#a9a9a9);--demo-nav-border:light-dark(#d2ded2,#2f3a2f);--demo-nav-green:light-dark(#4caf50,#6cc470);--demo-nav-primary:light-dark(#3c603c,#9ccf9f);--demo-nav-accent:light-dark(#f525e9,#ff6df5);--demo-nav-icon-bg:light-dark(#0000000d,#ffffff14);--demo-nav-radius:.25em;--demo-nav-font:Lato, Numero, system-ui, -apple-system, sans-serif;--demo-nav-font-mono:Consolas, Monaco, ui-monospace, monospace;box-sizing:border-box;isolation:isolate;color-scheme:light dark;background-color:var(--demo-nav-bg);border-block-end:1px solid var(--demo-nav-border);color:var(--demo-nav-text);font-family:var(--demo-nav-font);text-align:start;flex-wrap:wrap;align-items:center;gap:.5em 1.5em;padding:.75em clamp(.75em,3vw,1.5em);line-height:1.4;display:flex}.demo-nav *,.demo-nav :before,.demo-nav :after{all:unset;display:revert;box-sizing:border-box}.demo-nav a{color:var(--demo-nav-text);cursor:pointer;text-decoration:underline;text-decoration-color:var(--demo-nav-green);text-underline-offset:.2em;text-decoration-thickness:.09em}.demo-nav a:hover,.demo-nav a:focus,.demo-nav a:active{color:var(--demo-nav-green)}.demo-nav a:focus-visible{outline:2px solid var(--demo-nav-accent);outline-offset:3px;border-radius:var(--demo-nav-radius)}@media (height>=30em){.demo-nav{z-index:1;position:sticky;top:0}@supports (backdrop-filter:blur(1px)){.demo-nav{backdrop-filter:saturate(180%)blur(10px)}}}.demo-nav.demo-nav-static{position:static}.demo-nav .demo-nav-icon{border-radius:var(--demo-nav-icon-radius,var(--demo-nav-radius));background-color:var(--demo-nav-icon-bg);object-fit:contain;flex-shrink:0;width:1.15em;height:1.15em;display:block;overflow:hidden}.demo-nav .demo-nav-home{color:var(--demo-nav-primary);flex-shrink:0;align-items:center;gap:.4em;font-weight:700;text-decoration:none;display:inline-flex}.demo-nav .demo-nav-home:hover{color:var(--demo-nav-green);text-underline-offset:.2em;text-decoration:underline}.demo-nav .demo-nav-suffix{color:var(--demo-nav-muted);font-weight:400}.demo-nav .demo-nav-home .demo-nav-icon{border-radius:var(--demo-nav-icon-radius,50%);width:1.6em;height:1.6em}.demo-nav .demo-nav-heading{flex:12em;min-width:0}.demo-nav .demo-nav-title{color:var(--demo-nav-text);margin:0;font-size:1em;font-weight:700;line-height:1.3;display:block}.demo-nav .demo-nav-description{color:var(--demo-nav-muted);text-wrap:pretty;margin:0;font-size:.8125em;display:block}.demo-nav .demo-nav-links{flex-wrap:wrap;align-items:center;gap:.25em 1em;margin-inline-start:auto;font-size:.875em;display:flex}.demo-nav .demo-nav-links a{align-items:center;gap:.4em;display:inline-flex}.demo-nav .demo-nav-code{font-family:var(--demo-nav-font-mono);font-size:.9em}.demo-nav .demo-nav-skip{clip-path:inset(50%);white-space:nowrap;width:1px;height:1px;margin:-1px;padding:0;position:absolute;overflow:hidden}.demo-nav .demo-nav-skip:focus-visible{clip-path:none;background-color:var(--demo-nav-bg-solid);width:auto;height:auto;margin:0;padding:.25em .5em;position:static;overflow:visible}@media (width<=30em){.demo-nav .demo-nav-links{flex-basis:100%;margin-inline-start:0}}@media print{.demo-nav{border-block-end-width:0}.demo-nav .demo-nav-links,.demo-nav .demo-nav-skip{display:none}}
+</style>
+<header class="demo-nav">
+	<a class="demo-nav-skip" href="#demo">Skip to the demo</a>
+	<a class="demo-nav-home" href="https://www.zachleat.com/">
+		<img class="demo-nav-icon" src="https://v1.indieweb-avatar.11ty.dev/https%3A%2F%2Fwww.zachleat.com%2F/" alt="" width="48" height="48" decoding="async">
+		<span>zachleat<span class="demo-nav-suffix"> Demo</span></span>
+	</a>
+	<div class="demo-nav-heading">
+		<h1 class="demo-nav-title">&lt;details-utils&gt; Web Component</h1>
+		<p class="demo-nav-description">A suite of utilities to add more features to the &lt;details&gt; element.</p>
+	</div>
+	<nav class="demo-nav-links" aria-label="Demo links">
+		<a href="https://github.com/zachleat/details-utils"><img class="demo-nav-icon" src="https://v1.indieweb-avatar.11ty.dev/https%3A%2F%2Fgithub.com%2Fzachleat%2Fdetails-utils/" alt="" width="24" height="24" decoding="async">Source</a>
+		<a href="https://www.npmjs.com/package/%40zachleat%2Fdetails-utils"><img class="demo-nav-icon" src="https://v1.indieweb-avatar.11ty.dev/https%3A%2F%2Fdocs.npmjs.com%2F/" alt="" width="24" height="24" decoding="async"><code class="demo-nav-code">@zachleat/details-utils</code> on npm</a>
+		<a href="https://npmx.dev/package/%40zachleat%2Fdetails-utils"><img class="demo-nav-icon" src="https://v1.indieweb-avatar.11ty.dev/https%3A%2F%2Fnpmx.dev%2Fpackage%2F%2540zachleat%252Fdetails-utils/" alt="" width="24" height="24" decoding="async">npmx</a>
+		<a href="https://www.zachleat.com/web/details-utils/"><img class="demo-nav-icon" src="https://v1.indieweb-avatar.11ty.dev/https%3A%2F%2Fwww.zachleat.com%2Fweb%2Fdetails-utils%2F/" alt="" width="24" height="24" decoding="async">Blog Post</a>
+		<a href="https://www.zachleat.com/projects/"><img class="demo-nav-icon" src="https://v1.indieweb-avatar.11ty.dev/https%3A%2F%2Fwww.zachleat.com%2Fprojects%2F/" alt="" width="24" height="24" decoding="async">All Projects</a>
+	</nav>
+</header>
+<!-- /zachleat nav -->
 
-		<h2 id="click-out">Click outside to close</h2>
-		<details-utils close-click-outside>
-			<details>
-				<summary>Toggle Menu</summary>
-				<div class="demo-content">
-					<p>Note that interacting with content inside of the menu works without closing the menu. Like this <label>sample text input <input type="text"></label></p>
-				</div>
-			</details>
-		</details-utils>
-
-		<h3>Use a close button inside of the content.</h3>
-		<details-utils close-click-outside>
-			<details id="demo-details-close-button">
-				<summary>Toggle Menu</summary>
-				<div class="demo-content">
-					<p>Note that interacting with content inside of the menu works without closing the menu.</p>
-					<button type="button" data-du-close-click aria-controls="demo-details-close-button">Close</button>
-				</div>
-			</details>
-		</details-utils>
-
-		<h2 id="animate">Animate Open and Close</h2>
-		<details-utils animate>
-			<p>This attribute is ignored if <code>(prefers-reduced-motion)</code> preference is detected.</p>
-			<details>
-				<summary>Toggle Menu</summary>
-				<div class="demo-content">
-					<p>This is the content.</p>
-					<p>This is the content.</p>
-					<p>This is the content.</p>
-					<p>This is the content.</p>
-					<p>This is the content.</p>
-					<p>This is the content.</p>
-					<p>This is the content.</p>
-					<p>This is the content.</p>
-					<p>This is the content.</p>
-				</div>
-			</details>
-		</details-utils>
-
-		<h2 id="force">Force State</h2>
-		<h3>Force State based on JavaScript availability</h3>
-
-		<p>Open without JavaScript, closed with JavaScript:</p>
-		<details-utils force-close>
-			<details open>
-				<summary>Default open</summary>
-				<div class="demo-content">
-					<p>This is the content.</p>
-				</div>
-			</details>
-		</details-utils>
-
-		<p>Close without JavaScript, open with JavaScript:</p>
-		<details-utils force-open>
-			<details>
-				<summary>Default closed</summary>
-				<div class="demo-content">
-					<p>This is the content.</p>
-				</div>
-			</details>
-		</details-utils>
-
-		<p><em>If both <code>force-open force-close</code> are added, the state is toggled.</em></p>
-
-		<details-utils force-open force-close>
-			<details>
-				<summary>Default closed</summary>
-				<div class="demo-content">
-					<p>This is the content.</p>
-				</div>
-			</details>
-		</details-utils>
-
-		<details-utils force-open force-close>
-			<details open>
-				<summary>Default open</summary>
-				<div class="demo-content">
-					<p>This is the content.</p>
-				</div>
-			</details>
-		</details-utils>
-
-		<h3>Force State based on Viewport size</h3>
-		<p>Resize your viewport to see state change.</p>
-		<details-utils force-close="(min-width: 768px)" force-restore>
-			<p><code>force-close="(min-width: 768px)"</code>. Optionally use <code>force-restore</code> to restore previous state when media query doesn’t match.</p>
-			<details open style="color: red">
-				<summary>Force close at large viewport</summary>
-				<div class="demo-content">
-					<p>This is the content.</p>
-				</div>
-			</details>
-		</details-utils>
-		<details-utils force-open="(max-width: 767px)" force-restore>
-			<p><code>force-open="(max-width: 767px)"</code>. Optionally use <code>force-restore</code> to restore previous state when media query doesn’t match.</p>
-			<details style="color: green">
-				<summary>Force open at small viewport</summary>
-				<div class="demo-content">
-					<p>This is the content.</p>
-				</div>
-			</details>
-		</details-utils>
-		<details-utils force-close="(max-width: 767px)" force-open="(min-width: 768px)">
-			<p>Both <code>force-close="(max-width: 767px)"</code> and <code>force-open="(min-width: 768px)"</code> (without <code>force-restore</code>)</p>
-			<details style="color: blue">
-				<summary>Close at small, Open at large viewport</summary>
-				<div class="demo-content">
-					<p>This is the content.</p>
-				</div>
-			</details>
-		</details-utils>
-
-		<h2 id="esc">Close by <code>esc</code> Key</h2>
-		<details-utils close-esc>
-			<details>
-				<summary>Toggle Menu</summary>
-				<div class="demo-content">
-					<p>This is the content.</p>
-				</div>
-			</details>
-		</details-utils>
-
-		<h3>Close by <code>esc</code> based on Viewport size</h3>
-		<details-utils close-esc="(max-width: 767px)">
-			<p><code>close-esc="(max-width: 767px)"</code> will only close when viewport is smaller than 767px.</p>
-			<details>
-				<summary>Toggle Menu</summary>
-				<div class="demo-content">
-					<p>This is the content.</p>
-				</div>
-			</details>
-		</details-utils>
-
-		<h2 id="toggle-document-class">Toggle Document Class</h2>
-		<details-utils toggle-document-class="demo-class-toggle" close-click-outside close-esc>
-			<p>Useful if you want to make styling changes higher up in the page hierarchy.</p>
-			<!--<p>Use this to disable <code>overflow: hidden</code> on the document. Styling to make the content take up the entire viewport is up to you. Definitely pair this with the <code>close-esc</code> utility. In this demo, modal styles require JavaScript (this is not mandatory).</p>-->
-			<details id="demo-details-toggle-class">
-				<summary class="demo-modal-summary">Toggle Menu</summary>
-				<div class="demo-content">
-					<button type="button" data-du-close-click aria-controls="demo-details-toggle-class">Close</button>
-					<p>This is the content.</p>
-					<p>This is the content.</p>
-					<p>This is the content.</p>
-				</div>
-			</details>
-		</details-utils>
-
-		<script type="module" src="details-utils.js"></script>
+		<main>
+			<p>Go back to <a href="https://github.com/zachleat/details-utils">the GitHub repository</a>.</p>
+			<p>To use, wrap one (or more!) <code>&lt;details&gt;</code> elements in our  <code>&lt;details-utils&gt;</code> web component. Mix and match these utilities as needed:</p>
+			<ul>
+				<li><a href="#click-out">Click outside to close</a></li>
+				<li><a href="#animate">Animate open and close</a></li>
+				<li><a href="#force">Force State</a></li>
+				<li><a href="#esc">Close by <code>esc</code> key</a></li>
+				<li><a href="#toggle-document-class">Toggle document class</a></li>
+			</ul>
+			<h2 id="click-out">Click outside to close</h2>
+			<details-utils close-click-outside>
+				<details>
+					<summary>Toggle Menu</summary>
+					<div class="demo-content">
+						<p>Note that interacting with content inside of the menu works without closing the menu. Like this <label>sample text input <input type="text"></label></p>
+					</div>
+				</details>
+			</details-utils>
+			<h3>Use a close button inside of the content.</h3>
+			<details-utils close-click-outside>
+				<details id="demo-details-close-button">
+					<summary>Toggle Menu</summary>
+					<div class="demo-content">
+						<p>Note that interacting with content inside of the menu works without closing the menu.</p>
+						<button type="button" data-du-close-click aria-controls="demo-details-close-button">Close</button>
+					</div>
+				</details>
+			</details-utils>
+			<h2 id="animate">Animate Open and Close</h2>
+			<details-utils animate>
+				<p>This attribute is ignored if <code>(prefers-reduced-motion)</code> preference is detected.</p>
+				<details>
+					<summary>Toggle Menu</summary>
+					<div class="demo-content">
+						<p>This is the content.</p>
+						<p>This is the content.</p>
+						<p>This is the content.</p>
+						<p>This is the content.</p>
+						<p>This is the content.</p>
+						<p>This is the content.</p>
+						<p>This is the content.</p>
+						<p>This is the content.</p>
+						<p>This is the content.</p>
+					</div>
+				</details>
+			</details-utils>
+			<h2 id="force">Force State</h2>
+			<h3>Force State based on JavaScript availability</h3>
+			<p>Open without JavaScript, closed with JavaScript:</p>
+			<details-utils force-close>
+				<details open>
+					<summary>Default open</summary>
+					<div class="demo-content">
+						<p>This is the content.</p>
+					</div>
+				</details>
+			</details-utils>
+			<p>Close without JavaScript, open with JavaScript:</p>
+			<details-utils force-open>
+				<details>
+					<summary>Default closed</summary>
+					<div class="demo-content">
+						<p>This is the content.</p>
+					</div>
+				</details>
+			</details-utils>
+			<p><em>If both <code>force-open force-close</code> are added, the state is toggled.</em></p>
+			<details-utils force-open force-close>
+				<details>
+					<summary>Default closed</summary>
+					<div class="demo-content">
+						<p>This is the content.</p>
+					</div>
+				</details>
+			</details-utils>
+			<details-utils force-open force-close>
+				<details open>
+					<summary>Default open</summary>
+					<div class="demo-content">
+						<p>This is the content.</p>
+					</div>
+				</details>
+			</details-utils>
+			<h3>Force State based on Viewport size</h3>
+			<p>Resize your viewport to see state change.</p>
+			<details-utils force-close="(min-width: 768px)" force-restore>
+				<p><code>force-close="(min-width: 768px)"</code>. Optionally use <code>force-restore</code> to restore previous state when media query doesn’t match.</p>
+				<details open style="color: red">
+					<summary>Force close at large viewport</summary>
+					<div class="demo-content">
+						<p>This is the content.</p>
+					</div>
+				</details>
+			</details-utils>
+			<details-utils force-open="(max-width: 767px)" force-restore>
+				<p><code>force-open="(max-width: 767px)"</code>. Optionally use <code>force-restore</code> to restore previous state when media query doesn’t match.</p>
+				<details style="color: green">
+					<summary>Force open at small viewport</summary>
+					<div class="demo-content">
+						<p>This is the content.</p>
+					</div>
+				</details>
+			</details-utils>
+			<details-utils force-close="(max-width: 767px)" force-open="(min-width: 768px)">
+				<p>Both <code>force-close="(max-width: 767px)"</code> and <code>force-open="(min-width: 768px)"</code> (without <code>force-restore</code>)</p>
+				<details style="color: blue">
+					<summary>Close at small, Open at large viewport</summary>
+					<div class="demo-content">
+						<p>This is the content.</p>
+					</div>
+				</details>
+			</details-utils>
+			<h2 id="esc">Close by <code>esc</code> Key</h2>
+			<details-utils close-esc>
+				<details>
+					<summary>Toggle Menu</summary>
+					<div class="demo-content">
+						<p>This is the content.</p>
+					</div>
+				</details>
+			</details-utils>
+			<h3>Close by <code>esc</code> based on Viewport size</h3>
+			<details-utils close-esc="(max-width: 767px)">
+				<p><code>close-esc="(max-width: 767px)"</code> will only close when viewport is smaller than 767px.</p>
+				<details>
+					<summary>Toggle Menu</summary>
+					<div class="demo-content">
+						<p>This is the content.</p>
+					</div>
+				</details>
+			</details-utils>
+			<h2 id="toggle-document-class">Toggle Document Class</h2>
+			<details-utils toggle-document-class="demo-class-toggle" close-click-outside close-esc>
+				<p>Useful if you want to make styling changes higher up in the page hierarchy.</p>
+				<!--<p>Use this to disable <code>overflow: hidden</code> on the document. Styling to make the content take up the entire viewport is up to you. Definitely pair this with the <code>close-esc</code> utility. In this demo, modal styles require JavaScript (this is not mandatory).</p>-->
+				<details id="demo-details-toggle-class">
+					<summary class="demo-modal-summary">Toggle Menu</summary>
+					<div class="demo-content">
+						<button type="button" data-du-close-click aria-controls="demo-details-toggle-class">Close</button>
+						<p>This is the content.</p>
+						<p>This is the content.</p>
+						<p>This is the content.</p>
+					</div>
+				</details>
+			</details-utils>
+		</main>
 	</body>
 </html>
